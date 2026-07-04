@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +5,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAttack : MonoBehaviour
 {
-    [Header("References")]
     private Animator anim;
     private PlayerMovement playerMovement;
 

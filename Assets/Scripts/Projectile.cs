@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Projectile : MonoBehaviour
 {
-    [Header("References")]
     private Animator anim;
     private BoxCollider2D boxCollider;
 

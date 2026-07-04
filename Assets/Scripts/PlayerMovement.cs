@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("References")]
     private Rigidbody2D body;
     private Animator anim;
     private BoxCollider2D boxCollider;
@@ -20,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 6f;
     [SerializeField] private float wallSlideSpeed = 1f;
     [SerializeField] private float wallJumpDuration = 0.25f;
+    [SerializeField] private float wallJumpSpeedMultiplier = 1.2f;
+    [SerializeField] private float wallJumpForceMultiplier = 0.9f;
+    [SerializeField] private float defaultGravityScale = 2.5f;
 
     private float moveInput = 0f;
     private bool jumpRequested = false;
@@ -100,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         float jumpDirection = -wallSide; 
         wallJumpCooldown = wallJumpDuration;
         
-        body.linearVelocity = new Vector2(jumpDirection * speed * 1.2f, jumpForce * 0.9f);
+        body.linearVelocity = new Vector2(jumpDirection * speed * wallJumpSpeedMultiplier, jumpForce * wallJumpForceMultiplier);
         
         transform.localScale = new Vector3(jumpDirection, 1f, 1f);
         anim.SetTrigger(JumpHash);
@@ -154,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (wallJumpCooldown > 0f)
         {
-            body.gravityScale = 2.5f;
+            body.gravityScale = defaultGravityScale;
 
             if (Mathf.Abs(moveInput) > 0.01f)
             {
@@ -163,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        body.gravityScale = 2.5f;
+        body.gravityScale = defaultGravityScale;
         body.linearVelocity = new Vector2(moveInput * speed, body.linearVelocity.y);
     }
 
@@ -185,26 +187,5 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool(IsGroundedHash, IsGrounded);
     }
 
-    // private void OnDrawGizmos()
-    // {
-    //     BoxCollider2D col = boxCollider;
-    //     if (col == null) col = GetComponent<BoxCollider2D>();
-    //     if (col == null) return;
 
-    //     Vector2 bottomPos = new (col.bounds.center.x, col.bounds.min.y);
-    //     Vector2 rightPos = new (col.bounds.max.x, col.bounds.center.y);
-    //     Vector2 leftPos = new (col.bounds.min.x, col.bounds.center.y);
-
-    //     Vector2 groundSensorSize = new (col.bounds.size.x - 0.05f, 0.1f);
-    //     Vector2 wallSensorSize = new (0.1f, col.bounds.size.y * 0.8f);
-
-    //     Gizmos.color = IsGrounded ? Color.green : Color.red;
-    //     Gizmos.DrawWireCube(bottomPos, groundSensorSize);
-
-    //     Gizmos.color = (Physics2D.OverlapBox(rightPos, wallSensorSize, 0, wallLayer) != null) ? Color.green : Color.yellow;
-    //     Gizmos.DrawWireCube(rightPos, wallSensorSize);
-
-    //     Gizmos.color = (Physics2D.OverlapBox(leftPos, wallSensorSize, 0, wallLayer) != null) ? Color.green : Color.yellow;
-    //     Gizmos.DrawWireCube(leftPos, wallSensorSize);
-    // }
 }

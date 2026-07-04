@@ -2,37 +2,40 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Room Camera Settings")]
-    private float currentPositionX;
-
-    [Header("Follow Player Settings")]
     [SerializeField] private Transform player;
     [SerializeField] private float cameraSmoothTime = 0.2f;
     [SerializeField] private float aheadDistance = 2f;
     [SerializeField] private float verticalOffset = 0f;
 
     private Vector3 velocity = Vector3.zero;
-    private float lookAhead;
 
     private void Start()
     {
-        float startTargetX = player.position.x + (Mathf.Sign(player.localScale.x) * aheadDistance);
-        float startTargetY = player.position.y + verticalOffset;
-        transform.position = new (startTargetX, startTargetY, transform.position.z);
+        if (player != null)
+        {
+            transform.position = GetTargetPosition();
+        }
     }
 
     private void LateUpdate()
     {
-        float targetX = player.position.x + (Mathf.Sign(player.localScale.x) * aheadDistance);
-        float targetY = player.position.y + verticalOffset;
-        Vector3 targetPosition = new (targetX, targetY, transform.position.z);
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, cameraSmoothTime);
+        if (player == null) return;
+
+        transform.position = Vector3.SmoothDamp(transform.position, GetTargetPosition(), ref velocity, cameraSmoothTime);
     }
 
     public void MoveToNewRoom(Transform newRoom)
     {
         float newPositionX = newRoom.position.x;
-        if (newPositionX != currentPositionX)
-            currentPositionX = newPositionX;
+    }
+
+    private Vector3 GetTargetPosition()
+    {
+        float facingDirection = Mathf.Sign(player.localScale.x);
+
+        float targetX = player.position.x + (facingDirection * aheadDistance);
+        float targetY = player.position.y + verticalOffset;
+
+        return new Vector3(targetX, targetY, transform.position.z);
     }
 }

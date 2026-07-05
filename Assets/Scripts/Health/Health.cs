@@ -1,15 +1,24 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Health : MonoBehaviour
 {
     private Animator anim;
     private PlayerMovement playerMovement;
+    private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     [Header("Health Settings")]
     [SerializeField] private float startingHealth = 3f;
+
+    [Header("iFrames")]
+    [SerializeField] private float invulnerabilityDuration = 2f;
+    [SerializeField] private int numberOfFlashes = 5;
 
     private bool isDead;
 
@@ -30,6 +39,8 @@ public class Health : MonoBehaviour
         CurrentHealth = StartingHealth;
         anim = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -47,7 +58,10 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, StartingHealth);
 
         if (CurrentHealth > 0)
+        {
             anim.SetTrigger(HurtHash);
+            StartCoroutine(Invulnerability());
+        }
         else
             Die();
 
@@ -67,5 +81,23 @@ public class Health : MonoBehaviour
         isDead = true;
         anim.SetTrigger(DieHash);
         playerMovement.enabled = false;
+
+        if (rb != null)
+            rb.linearVelocityX = 0f;
+    }
+
+    private IEnumerator Invulnerability()
+    {
+        Physics2D.IgnoreLayerCollision(10, 11, true);
+
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            sr.color = new Color(1f, 0f, 0f, 0.7f);
+            yield return new WaitForSeconds(invulnerabilityDuration / (numberOfFlashes * 2));
+            sr.color = Color.white;
+            yield return new WaitForSeconds(invulnerabilityDuration / (numberOfFlashes * 2));
+        }
+
+        Physics2D.IgnoreLayerCollision(10, 11, false);
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine;
 public class EnemyDamage : MonoBehaviour
 {
     [Header("Damage Settings")]
-    [SerializeField] private float damageAmount = 1f;
+    [SerializeField] protected float damageAmount = 1f;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && other.TryGetComponent<Health>(out var playerHealth))
         {

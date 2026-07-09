@@ -27,7 +27,6 @@ public class PlayerAttack : MonoBehaviour
         cooldownTimer += Time.deltaTime;
 
         if (Keyboard.current == null || Mouse.current == null) return;
-
         bool isAttackPressed = Keyboard.current.kKey.wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame;
 
         if (isAttackPressed && cooldownTimer > attackCooldown && playerMovement.CanAttack())
@@ -37,7 +36,6 @@ public class PlayerAttack : MonoBehaviour
     private void Attack()
     {
         int bulletIndex = FindFireball();
-
         if (bulletIndex == -1) return;
 
         anim.SetTrigger(AttackHash);

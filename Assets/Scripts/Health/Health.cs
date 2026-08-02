@@ -3,13 +3,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Health : MonoBehaviour
 {
     private Animator anim;
     private PlayerMovement playerMovement;
+    private MeleeEnemy meleeEnemy;
+    private EnemyPatrol enemyPatrol;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
@@ -39,6 +40,8 @@ public class Health : MonoBehaviour
         CurrentHealth = StartingHealth;
         anim = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+        meleeEnemy = GetComponent<MeleeEnemy>();
+        enemyPatrol = GetComponent<EnemyPatrol>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
@@ -80,7 +83,13 @@ public class Health : MonoBehaviour
     {
         isDead = true;
         anim.SetTrigger(DieHash);
-        playerMovement.enabled = false;
+
+        if (playerMovement != null)
+            playerMovement.enabled = false;
+        if (enemyPatrol != null)
+            enemyPatrol.enabled = false;
+        if (meleeEnemy != null)
+            meleeEnemy.enabled = false;
 
         if (rb != null)
             rb.linearVelocityX = 0f;

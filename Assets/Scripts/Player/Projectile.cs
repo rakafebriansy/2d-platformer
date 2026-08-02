@@ -35,11 +35,14 @@ public class Projectile : MonoBehaviour
             Deactivate();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         hit = true;
         boxCollider.enabled = false;
         anim.SetTrigger(ExplodeHash);
+
+        if(other.CompareTag("Enemy")) 
+            other.GetComponent<Health>().TakeDamage(1);
     }
 
     private void Deactivate()

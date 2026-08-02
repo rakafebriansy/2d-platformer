@@ -19,7 +19,6 @@ public class Firetrap : MonoBehaviour
 
     private Health playerHealth;
     private bool isTriggered;
-    private bool isActive;
 
     private static readonly int ActivatedHash = Animator.StringToHash("activated");
 
@@ -53,7 +52,6 @@ public class Firetrap : MonoBehaviour
 
         yield return new WaitForSeconds(activationDelay);
         sr.color = Color.white;
-        isActive = true;
         anim.SetBool(ActivatedHash, true);
 
         float activeTimer = 0f;
@@ -70,7 +68,6 @@ public class Firetrap : MonoBehaviour
             yield return null;
         }
 
-        isActive = false;
         isTriggered = false;
         anim.SetBool(ActivatedHash, false);
 

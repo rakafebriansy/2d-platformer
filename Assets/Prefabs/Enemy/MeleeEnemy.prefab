@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3312844833178228677}
   - component: {fileID: 8917745913512907535}
   - component: {fileID: 2129786318285837460}
+  - component: {fileID: 2671289853053809617}
+  - component: {fileID: 8775436596725524594}
   m_Layer: 11
   m_Name: MeleeEnemy
   m_TagString: Enemy
@@ -179,6 +181,8 @@ MonoBehaviour:
   startingHealth: 3
   invulnerabilityDuration: 0
   numberOfFlashes: 0
+  components:
+  - {fileID: 2129786318285837460}
 --- !u!114 &2129786318285837460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,11 +195,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac1e05230241470ea3689c7a7ea396a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
+  attackCooldown: 1
+  damageAmount: 2
+  range: 2.5
   boxCollider2D: {fileID: 3312844833178228677}
+  colliderDistance: 0.45
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  attackCooldown: 1
-  colliderDistance: 0.45
-  damageAmount: 2
-  range: 2.5
+--- !u!50 &2671289853053809617
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397135272463156508}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &8775436596725524594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397135272463156508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3900210dff79446ab1926854275db15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
+  damageAmount: 1

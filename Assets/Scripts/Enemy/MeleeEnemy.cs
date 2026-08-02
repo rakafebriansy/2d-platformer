@@ -32,6 +32,8 @@ public class MeleeEnemy : MonoBehaviour
 
     private void Update()
     {
+        if (boxCollider2D == null) return;
+
         cooldownTimer += Time.deltaTime;
 
 
@@ -47,18 +49,29 @@ public class MeleeEnemy : MonoBehaviour
 
     private bool PlayerInSight()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(boxCollider2D.bounds.center + colliderDistance * range * transform.localScale.x * transform.right, 
+        if (boxCollider2D == null) return false;
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            boxCollider2D.bounds.center + colliderDistance * range * transform.localScale.x * transform.right, 
             new Vector3(boxCollider2D.bounds.size.x * range, boxCollider2D.bounds.size.y, boxCollider2D.bounds.size.z), 
-            0, Vector2.left, 0, playerLayer);
+            0, playerLayer);
 
-        if(hit.collider != null) 
-            playerHealth = hit.transform.GetComponent<Health>();
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+            {
+                playerHealth = hit.transform.GetComponent<Health>();
+                return true;
+            }
+        }
 
-        return hit.collider != null;
+        return false;
     }
 
     private void OnDrawGizmos()
     {
+        if (boxCollider2D == null) return;
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(boxCollider2D.bounds.center + colliderDistance * range * transform.localScale.x * transform.right, 
             new Vector3(boxCollider2D.bounds.size.x * range, boxCollider2D.bounds.size.y, boxCollider2D.bounds.size.z));

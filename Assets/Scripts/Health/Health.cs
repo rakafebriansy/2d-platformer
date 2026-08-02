@@ -8,9 +8,6 @@ using UnityEngine.InputSystem;
 public class Health : MonoBehaviour
 {
     private Animator anim;
-    private PlayerMovement playerMovement;
-    private MeleeEnemy meleeEnemy;
-    private EnemyPatrol enemyPatrol;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
@@ -20,6 +17,9 @@ public class Health : MonoBehaviour
     [Header("iFrames")]
     [SerializeField] private float invulnerabilityDuration = 2f;
     [SerializeField] private int numberOfFlashes = 5;
+
+    [Header("Components")]
+    [SerializeField] private Behaviour[] components;
 
     private bool isDead;
 
@@ -39,9 +39,6 @@ public class Health : MonoBehaviour
     {
         CurrentHealth = StartingHealth;
         anim = GetComponent<Animator>();
-        playerMovement = GetComponent<PlayerMovement>();
-        meleeEnemy = GetComponent<MeleeEnemy>();
-        enemyPatrol = GetComponent<EnemyPatrol>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
@@ -84,12 +81,8 @@ public class Health : MonoBehaviour
         isDead = true;
         anim.SetTrigger(DieHash);
 
-        if (playerMovement != null)
-            playerMovement.enabled = false;
-        if (enemyPatrol != null)
-            enemyPatrol.enabled = false;
-        if (meleeEnemy != null)
-            meleeEnemy.enabled = false;
+        foreach (Behaviour component in components)
+            component.enabled = false;
 
         if (rb != null)
             rb.linearVelocityX = 0f;
@@ -108,5 +101,10 @@ public class Health : MonoBehaviour
         }
 
         Physics2D.IgnoreLayerCollision(10, 11, false);
+    }
+
+    private void Deactivate() 
+    {
+        gameObject.SetActive(false);
     }
 }

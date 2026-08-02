@@ -12,4 +12,12 @@ public class EnemyDamage : MonoBehaviour
             playerHealth.TakeDamage(damageAmount);
         }
     }
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject.TryGetComponent<Health>(out var playerHealth))
+        {
+            playerHealth.TakeDamage(damageAmount);
+        }
+    }
 }

@@ -42,7 +42,11 @@ public class Projectile : MonoBehaviour
         anim.SetTrigger(ExplodeHash);
 
         if(other.CompareTag("Enemy")) 
-            other.GetComponent<Health>().TakeDamage(1);
+        {
+            Health health = other.GetComponent<Health>();
+            if (health != null)
+                health.TakeDamage(1);
+        }
     }
 
     private void Deactivate()

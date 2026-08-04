@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackCooldown = 0.25f;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject[] fireballs;
+    [SerializeField] private AudioClip fireballSound;
 
     private float cooldownTimer = Mathf.Infinity;
     private static readonly int AttackHash = Animator.StringToHash("attack");
@@ -35,6 +36,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
+        SoundManager.instance.PlaySound(fireballSound);
         int bulletIndex = FindFireball();
         if (bulletIndex == -1) return;
 

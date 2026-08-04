@@ -17,6 +17,9 @@ public class Firetrap : MonoBehaviour
     [SerializeField] private float activationDelay = 2f;
     [SerializeField] private float activeDuration = 2f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip firetrapActivateSound;
+
     private Health playerHealth;
     private bool isTriggered;
 
@@ -56,6 +59,8 @@ public class Firetrap : MonoBehaviour
 
         float activeTimer = 0f;
         float nextDamageTime = 0f;
+
+        SoundManager.instance.PlaySound(firetrapActivateSound);
 
         while (activeTimer < activeDuration)
         {

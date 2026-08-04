@@ -183,6 +183,8 @@ MonoBehaviour:
   numberOfFlashes: 0
   components:
   - {fileID: 2129786318285837460}
+  deathSound: {fileID: 8300000, guid: 3b1a1dd2ea24141e5a22d1717e77951a, type: 3}
+  hurtSound: {fileID: 8300000, guid: 71cfb2a845c2d477d845b6455be03a95, type: 3}
 --- !u!114 &2129786318285837460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,13 +198,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
   attackCooldown: 1
-  damageAmount: 2
+  damageAmount: 1
   range: 2.5
   boxCollider2D: {fileID: 3312844833178228677}
   colliderDistance: 0.45
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  attackSound: {fileID: 8300000, guid: fff5a9cedbdc645a996b8a9fce8cd982, type: 3}
 --- !u!50 &2671289853053809617
 Rigidbody2D:
   serializedVersion: 5

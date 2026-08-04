@@ -198,6 +198,7 @@ MonoBehaviour:
   wallJumpSpeedMultiplier: 1.2
   wallJumpForceMultiplier: 0.9
   defaultGravityScale: 2.5
+  jumpSound: {fileID: 8300000, guid: 2626c5c9cc74241d1b23743879a5acc3, type: 3}
 --- !u!114 &2285378811058600026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +224,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  fireballSound: {fileID: 8300000, guid: 1bb079bad432548fd8b206305670808f, type: 3}
 --- !u!114 &8166950609681366350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +243,8 @@ MonoBehaviour:
   components:
   - {fileID: 5203200517978685818}
   - {fileID: 2285378811058600026}
+  deathSound: {fileID: 8300000, guid: 3b1a1dd2ea24141e5a22d1717e77951a, type: 3}
+  hurtSound: {fileID: 0}
 --- !u!95 &106470318387831469
 Animator:
   serializedVersion: 7
@@ -283,6 +287,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
+  attackSound: {fileID: 0}
 --- !u!1 &5764284545864121689
 GameObject:
   m_ObjectHideFlags: 0

@@ -221,6 +221,7 @@ MonoBehaviour:
   - {fileID: 5976027126212568631}
   - {fileID: 9192196278054101144}
   - {fileID: 250672788076970599}
+  fireballSound: {fileID: 8300000, guid: 1bb079bad432548fd8b206305670808f, type: 3}
   boxCollider2D: {fileID: 2415581959180950685}
   colliderDistance: 0.35
   playerLayer:
@@ -243,7 +244,8 @@ MonoBehaviour:
   numberOfFlashes: 5
   components:
   - {fileID: 409057194103079173}
-  - {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 3b1a1dd2ea24141e5a22d1717e77951a, type: 3}
+  hurtSound: {fileID: 8300000, guid: 71cfb2a845c2d477d845b6455be03a95, type: 3}
 --- !u!114 &5147885043926934587
 MonoBehaviour:
   m_ObjectHideFlags: 0

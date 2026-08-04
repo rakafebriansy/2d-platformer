@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpForceMultiplier = 0.9f;
     [SerializeField] private float defaultGravityScale = 2.5f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip jumpSound;
+
     private float moveInput = 0f;
     private bool jumpRequested = false;
     private bool wallJumpRequested = false;
@@ -92,13 +95,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void ExecuteJump()
     {
-        body.linearVelocity = new Vector2(body.linearVelocity.x, jumpForce);
+        if (jumpSound != null && SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySound(jumpSound);
+        }
         anim.SetTrigger(JumpHash);
+        body.linearVelocity = new Vector2(body.linearVelocity.x, jumpForce);
         jumpRequested = false;
     }
 
     private void ExecuteWallJump()
     {
+        if (jumpSound != null && SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySound(jumpSound);
+        }
         float jumpDirection = -wallSide; 
         wallJumpCooldown = wallJumpDuration;
         

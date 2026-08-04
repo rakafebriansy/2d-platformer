@@ -21,6 +21,10 @@ public class Health : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Behaviour[] components;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hurtSound;
+
     private bool isDead;
 
     public event System.Action OnHealthChanged;
@@ -60,10 +64,14 @@ public class Health : MonoBehaviour
         if (CurrentHealth > 0)
         {
             anim.SetTrigger(HurtHash);
+            SoundManager.instance.PlaySound(hurtSound);
             StartCoroutine(Invulnerability());
         }
         else
+        {
+            SoundManager.instance.PlaySound(deathSound);
             Die();
+        }
 
         OnHealthChanged?.Invoke();
     }

@@ -187,3 +187,4 @@ MonoBehaviour:
   speed: 1
   range: 16
   checkDelay: 1
+  spikeHeadAttackSound: {fileID: 8300000, guid: abde3a9c968564d95a5a94a1595afcb0, type: 3}

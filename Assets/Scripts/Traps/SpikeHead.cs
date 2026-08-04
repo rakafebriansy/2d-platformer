@@ -7,6 +7,9 @@ public class SpikeHead : EnemyDamage
     [SerializeField] private float speed = 8f;
     [SerializeField] private float range = 16f;
     [SerializeField] private float checkDelay = 1f;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip spikeHeadAttackSound;
     
     private Vector3 moveDirection;
     private readonly Vector3[] directions = new Vector3[4];
@@ -32,6 +35,7 @@ public class SpikeHead : EnemyDamage
 
     protected override void OnTriggerEnter2D(Collider2D other)
     {
+        SoundManager.instance.PlaySound(spikeHeadAttackSound);
         base.OnTriggerEnter2D(other);
         Stop();
     }

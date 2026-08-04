@@ -157,6 +157,7 @@ MonoBehaviour:
   damageTickRate: 0.5
   activationDelay: 2
   activeDuration: 2
+  firetrapActivateSound: {fileID: 8300000, guid: a715bc470ce0f461b967689269cdddec, type: 3}
 --- !u!95 &1455052654674090977
 Animator:
   serializedVersion: 7

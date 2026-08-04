@@ -15,6 +15,7 @@ public class RangedEnemy : MonoBehaviour
     [Header("Ranged Atttack")]
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject[] fireballs;
+    [SerializeField] private AudioClip fireballSound;
 
     [Header("Collider Parameters")]
     [SerializeField] private BoxCollider2D boxCollider2D;
@@ -40,7 +41,7 @@ public class RangedEnemy : MonoBehaviour
         cooldownTimer += Time.deltaTime;
 
 
-        if (PlayerInSight() && cooldownTimer >= attackCooldown)
+        if (PlayerInSight() && cooldownTimer >= attackCooldown && playerHealth.CurrentHealth > 0)
         {
             cooldownTimer = 0;
             anim.SetTrigger(RangedAttackHash);
@@ -52,6 +53,8 @@ public class RangedEnemy : MonoBehaviour
 
     private void Attack()
     {
+        SoundManager.instance.PlaySound(fireballSound);
+
         int bulletIndex = FindFireball();
         if (bulletIndex == -1) return;
 

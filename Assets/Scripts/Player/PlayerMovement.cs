@@ -22,15 +22,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpSpeedMultiplier = 1.2f;
     [SerializeField] private float wallJumpForceMultiplier = 0.9f;
     [SerializeField] private float defaultGravityScale = 2.5f;
+    [SerializeField] private float jumpCutMultiplier = 0.5f;
+
+    [Header("Coyote Time Settings")]   
+    [SerializeField] private float coyoteTime = 0.2f;
+
+    [Header("Multiple Jumps Settings")]   
+    [SerializeField] private int maxJumps = 2;
 
     [Header("SFX")]
     [SerializeField] private AudioClip jumpSound;
 
+    private float coyoteTimeCounter;
     private float moveInput = 0f;
     private bool jumpRequested = false;
+    private bool jumpCanceled = false;
     private bool wallJumpRequested = false;
     private float wallJumpCooldown;
     private int wallSide;
+    private int jumpCount;
 
     public bool IsGrounded { get; private set; }
     public bool OnWall { get; private set; }
@@ -48,9 +58,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        GatherInput();
         CheckEnvironment();
         HandleTimers();
+        GatherInput();
         HandleVisuals();
     }
 
@@ -61,10 +71,20 @@ public class PlayerMovement : MonoBehaviour
         if (jumpRequested)
         {
             ExecuteJump();
+            jumpCount++;
         }
         else if (wallJumpRequested)
         {
             ExecuteWallJump();
+        }
+
+        if (jumpCanceled)
+        {
+            if (body.linearVelocity.y > 0f)
+            {
+                body.linearVelocity = new Vector2(body.linearVelocity.x, body.linearVelocity.y * jumpCutMultiplier);
+            }
+            jumpCanceled = false;
         }
     }
     
@@ -132,14 +152,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
-            if (IsGrounded)
+            if (OnWall && !IsGrounded)
+                wallJumpRequested = true;
+            else if (coyoteTimeCounter > 0f)
             {
                 jumpRequested = true;
-            }
-            else if (OnWall && !IsGrounded)
+                coyoteTimeCounter = 0f;
+            } else if (jumpCount < maxJumps)
             {
-                wallJumpRequested = true;
+                if (jumpCount == 0) jumpCount = 1;
+                jumpRequested = true;
             }
+        }
+
+        if (Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame)
+        {
+            jumpCanceled = true;
         }
     }
 
@@ -149,6 +177,16 @@ public class PlayerMovement : MonoBehaviour
             wallJumpCooldown = 0f;
         else if (wallJumpCooldown > 0f)
             wallJumpCooldown -= Time.deltaTime;
+
+        if (IsGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+            jumpCount = 0;
+        }
+        else if (OnWall)
+            jumpCount = 0;
+        else
+            coyoteTimeCounter -= Time.deltaTime;
     }
 
     private void HandleMovement()

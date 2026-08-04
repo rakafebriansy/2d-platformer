@@ -87,10 +87,11 @@ public class Health : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        anim.SetTrigger(DieHash);
 
         foreach (Behaviour component in components)
             component.enabled = false;
+
+        anim.SetTrigger(DieHash);
 
         if (rb != null)
             rb.linearVelocityX = 0f;

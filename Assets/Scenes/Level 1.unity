@@ -10924,6 +10924,10 @@ PrefabInstance:
       propertyPath: 'fireballs.Array.data[9]'
       value: 
       objectReference: {fileID: 241974181}
+    - target: {fileID: 5203200517978685818, guid: eb35d5512d7e84c7d8715821f02f71da, type: 3}
+      propertyPath: jumpForce
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8166950609681366350, guid: eb35d5512d7e84c7d8715821f02f71da, type: 3}
       propertyPath: hurtSound
       value: 
